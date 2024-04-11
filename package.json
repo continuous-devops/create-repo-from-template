@@ -4,15 +4,19 @@
   "description": "A node.js app to create a repository from a repository template",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js -o dist"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/continuous-devops/create-repo.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "github",
+    "action"
+  ],
+  "author": "Ari LiVigni",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/continuous-devops/create-repo/issues"
   },
