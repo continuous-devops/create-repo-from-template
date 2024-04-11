@@ -11,11 +11,11 @@ const repo = context.payload.repository.name;
 const template = context.payload.issue.title;
 
 // Get the authorization inputs from the workflow file
-const githubAppId = core.getInput('github_app_id');
-const githubAppPrivateKey = core.getInput('github_app_private_key');
-const githubAppInstallationId = core.getInput('github_app_installation_id');
-const githubApiUrl = core.getInput('github_api_url');
-const githubPAT = core.getInput('github_pat');
+const githubAppId = core.getInput('github_app_id') || process.env.GITHUB_APP_ID;
+const githubAppPrivateKey = core.getInput('github_app_private_key') || process.env.GITHUB_APP_PRIVATE_KEY;
+const githubAppInstallationId = core.getInput('github_app_installation_id') || process.env.GITHUB_APP_INSTALLATION_ID;
+const githubApiUrl = core.getInput('github_api_url') || process.env.GITHUB_API_URL;
+const githubPAT = core.getInput('github_pat') || process.env.GITHUB_PAT;
 
 core.info(`isDebug? ${core.isDebug()}`);
 
