@@ -1,0 +1,26 @@
+{
+  "name": "create-repo",
+  "version": "1.0.0",
+  "description": "A node.js app to create a repository from a repository template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/continuous-devops/create-repo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/continuous-devops/create-repo/issues"
+  },
+  "homepage": "https://github.com/continuous-devops/create-repo#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@octokit/auth-app": "^6.1.1",
+    "@octokit/rest": "^20.1.0"
+  }
+}
