@@ -1,25 +1,25 @@
 name: "create-repo"
 description: "An action to create a repository from a repository template in an organization"
 inputs:
-  repo-name:
+  repo_name:
     description: "GitHub repository name to create"
     required: true
-  repo-template:
+  repo_template:
     description: "GitHub repository template to use"
     required: true
-  github_app_id:
+  app_id:
     description: "GitHub App ID"
     required: false
-  github_app_private_key:
+  app_private_key:
     description: "GitHub App private key"
     required: false
-  github_app_installation_id:
+  app_installation_id:
     description: "GitHub App installation ID"
     required: false
-  github_pat:
+  pat:
     description: "Personal access token if using that to auth instead of an app"
     required: false
-  github_api_url:
+  api_url:
     description: "Source GitHub API URL"
     required: false
     default: "https://api.github.com"
