@@ -7,8 +7,8 @@ const context = github.context;
 // Get the user, organization, repo, and template from the issue event payload
 const user = context.payload.issue.user.login;
 const organization = context.payload.organization.login;
-const repo = context.payload.repository.name;
-const template = context.payload.issue.title;
+const repoName = core.getInput('repo_name');
+const repoTemplate = core.getInput('repo_template');
 
 // Get the authorization inputs from the workflow file
 const githubAppId = core.getInput('github_app_id') || process.env.GITHUB_APP_ID;
@@ -54,6 +54,7 @@ function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, api
 // Create a new repository from the template, using the Octokit instance,
 // and log the response to the console and the issue comment thread on success or failure
 // add user as an admin to teh repository that was created
+// close the issue
 
 async function createRepoFromTemplate() {
   try {
@@ -61,7 +62,7 @@ async function createRepoFromTemplate() {
     try {
       await octokit.repos.get({
         owner: organization,
-        repo: repo,
+        repo: repoName,
       });
       core.info(`Repository ${repo} already exists`);
 
@@ -82,15 +83,15 @@ async function createRepoFromTemplate() {
 
     const response = await octokit.repos.createUsingTemplate({
       template_owner: organization,
-      template_repo: template,
+      template_repo: repoTemplate,
       owner: organization,
-      name: repo,
+      name: repoName,
     });
     core.info(`Repository created: ${response.data.full_name}`);
 
     await octokit.repos.addCollaborator({
       owner: organization,
-      repo: repo,
+      repo: repoName,
       username: user,
       permission: 'admin',
     });
@@ -101,7 +102,15 @@ async function createRepoFromTemplate() {
       owner: organization,
       repo: context.payload.repository.name,
       issue_number: context.payload.issue.number,
-      body: `Repository created successfully: ${response.data.html_url}\nUser ${user} added as an admin to ${repo}`
+      body: `Repository created successfully: ${response.data.html_url}\nUser ${user} added as an admin to ${repoName}`
+    });
+
+    // Close the issue on success
+    await octokit.issues.update({
+      owner: organization,
+      repo: context.payload.repository.name,
+      issue_number: context.payload.issue.number,
+      state: 'closed'
     });
   } catch (error) {
     core.setFailed(error.message);
@@ -111,7 +120,7 @@ async function createRepoFromTemplate() {
       owner: organization,
       repo: context.payload.repository.name,
       issue_number: context.payload.issue.number,
-      body: `Failed to create repository: ${error.message}`
+      body: `Failed to create repository ${repoName}: ${error.message}`
     });
   }
 }
