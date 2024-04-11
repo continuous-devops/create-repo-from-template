@@ -81,7 +81,7 @@ async function createRepoFromTemplate() {
       // Repository does not exist, continue with creation
     }
 
-    const response = await octokit.repos.createUsingTemplate({
+    const response = await octokit.repos.createRepoFromTemplate({
       template_owner: organization,
       template_repo: repoTemplate,
       owner: organization,
