@@ -41148,6 +41148,29 @@ function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, api
 
 async function createRepoFromTemplate() {
   try {
+    // Check if the repository already exists
+    try {
+      await octokit.repos.get({
+        owner: organization,
+        repo: repo,
+      });
+      core.info(`Repository ${repo} already exists`);
+
+      // Comment back to the issue that repository already exists
+      await octokit.issues.createComment({
+        owner: organization,
+        repo: context.payload.repository.name,
+        issue_number: context.payload.issue.number,
+        body: `Repository ${repo} already exists.`
+      });
+      return;
+    } catch (error) {
+      if (error.status !== 404) {
+        throw error;
+      }
+      // Repository does not exist, continue with creation
+    }
+
     const response = await octokit.repos.createUsingTemplate({
       template_owner: organization,
       template_repo: template,
