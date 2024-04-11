@@ -41107,8 +41107,9 @@ const githubAppPrivateKey = core.getInput('app_private_key') || process.env.APP_
 const githubAppInstallationId = core.getInput('app_installation_id') || process.env.APP_INSTALLATION_ID;
 const githubApiUrl = core.getInput('api_url') || process.env.API_URL;
 const githubPAT = core.getInput('pat') || process.env.PAT;
+const isDebug = core.getInput('debug') || process.env.DEBUG;
 
-core.info(`isDebug? ${core.isDebug()}`);
+core.info(`isDebug? ${isDebug}`);
 
 // Create Octokit instances for source and target
 const octokit = createOctokitInstance(
@@ -41172,7 +41173,7 @@ async function createRepoFromTemplate() {
       // Repository does not exist, continue with creation
     }
 
-    const response = await  octokit.request("POST /repos/${organization}/${repoTemplate}/generate")({
+    const response = await  octokit.request("POST /repos/${organization}/${repoTemplate}/generate",{
       template_owner: organization,
       template_repo: repoTemplate,
       owner: organization,

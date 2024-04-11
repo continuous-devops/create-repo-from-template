@@ -23,6 +23,10 @@ inputs:
     description: "Source GitHub API URL"
     required: false
     default: "https://api.github.com"
+  is_debug:
+    description: "Debug mode"
+    required: false
+    default: "true"
 runs:
   using: "node20"
   main: "dist/index.js"
