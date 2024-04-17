@@ -82,11 +82,12 @@ async function createRepoFromTemplate() {
       // Repository does not exist, continue with creation
     }
 
-    const response = await  octokit.request("POST /repos/{template_owner}/{template_repo}/generate",{
+    const response = await  octokit.request('POST /repos/{template_owner}/{template_repo}/generate',{
       template_owner: organization,
       template_repo: repoTemplate,
       owner: organization,
       name: repoName,
+      include_all_branches: true,
     });
     core.info(`Repository created: ${response.data.full_name}`);
 
