@@ -23,7 +23,7 @@ inputs:
     description: "Source GitHub API URL"
     required: false
     default: "https://api.github.com"
-  debug:
+  is_debug:
     description: "Debug mode"
     required: false
     default: "true"

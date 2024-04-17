@@ -16,7 +16,7 @@ const githubAppPrivateKey = core.getInput('app_private_key') || process.env.APP_
 const githubAppInstallationId = core.getInput('app_installation_id') || process.env.APP_INSTALLATION_ID;
 const githubApiUrl = core.getInput('api_url') || process.env.API_URL;
 const githubPAT = core.getInput('pat') || process.env.PAT;
-const isDebug = core.getInput('debug') || process.env.DEBUG;
+const isDebug = core.getInput('is_debug') || process.env.DEBUG;
 
 core.info(`isDebug? ${isDebug}`);
 
