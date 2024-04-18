@@ -41140,6 +41140,7 @@ async function createRepo() {
     template_repo: repoTemplate,
     owner: organization,
     name: createRepoName,
+    description: `Repository created from template ${repoTemplate}`,
     include_all_branches: true,
     private: true,
     headers: {
