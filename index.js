@@ -32,7 +32,13 @@ const octokit = createOctokitInstance(
 // Function to create Octokit instance
 function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, apiUrl) {
   // Prefer app auth to PAT if both are available
-  if (appId && appPrivateKey && appInstallationId) {
+  if (pat) {
+    return new Octokit({
+      auth: PAT,
+      baseUrl: apiUrl,
+      log: core.isDebug() ? console : null,
+    });
+  } else {
     return new Octokit({
       authStrategy: createAppAuth,
       auth: {
@@ -40,12 +46,6 @@ function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, api
         privateKey: appPrivateKey,
         installationId: appInstallationId,
       },
-      baseUrl: apiUrl,
-      log: core.isDebug() ? console : null,
-    });
-  } else {
-    return new Octokit({
-      auth: PAT,
       baseUrl: apiUrl,
       log: core.isDebug() ? console : null,
     });
