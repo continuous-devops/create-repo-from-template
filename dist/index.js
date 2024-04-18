@@ -41096,10 +41096,14 @@ const github = __nccwpck_require__(2113);
 
 const context = github.context;
 // Get the user, organization, repo, and template from the issue event payload
-const user = context.payload.issue.user.login;
-const organization = context.payload.organization.login;
-const repoName = core.getInput('repo_name');
-const repoTemplate = core.getInput('repo_template');
+const user = context.payload?.issue?.user?.login || process.env.USER;
+const organization = context.payload?.organization?.login || process.env.ORGANIZATION;
+const issuesRepoName = context.payload?.repository?.name || process.env.ISSUES_REPO_NAME;
+const issuesNumber = context.payload?.issue?.number || process.env.ISSUES_NUMBER;
+
+// Get the repository name to create and template from the workflow file
+const createRepoName = core.getInput('repo_name') || process.env.REPO_NAME;
+const repoTemplate = core.getInput('repo_template') || process.env.REPO_TEMPLATE;
 
 // Get the authorization inputs from the workflow file
 const githubAppId = core.getInput('app_id') || process.env.APP_ID;
@@ -41122,7 +41126,7 @@ const octokit = createOctokitInstance(
 
 // Function to create Octokit instance
 function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, apiUrl) {
-  // Prefer app auth to PAT if both are available
+  // Prefer PAT over GitHub App for authentication
   if (PAT) {
     return new Octokit({
       auth: PAT,
@@ -41154,14 +41158,14 @@ async function createRepoFromTemplate() {
     try {
       await octokit.repos.get({
         owner: organization,
-        repo: repoName,
+        repo: createRepoName,
       });
       core.info(`Repository ${repo} already exists`);
 
       // Comment back to the issue that repository already exists
       await octokit.issues.createComment({
         owner: organization,
-        repo: context.payload.repository.name,
+        repo: IssuesRepoName,
         issue_number: context.payload.issue.number,
         body: `Repository ${repo} already exists.`
       });
@@ -41177,14 +41181,15 @@ async function createRepoFromTemplate() {
       template_owner: organization,
       template_repo: repoTemplate,
       owner: organization,
-      name: repoName,
+      name: createRepoName,
       include_all_branches: true,
+      'private': true,
     });
     core.info(`Repository created: ${response.data.full_name}`);
 
     await octokit.repos.addCollaborator({
       owner: organization,
-      repo: repoName,
+      repo: createRepoName,
       username: user,
       permission: 'admin',
     });
@@ -41193,16 +41198,16 @@ async function createRepoFromTemplate() {
     // Comment back to the issue on success
     await octokit.issues.createComment({
       owner: organization,
-      repo: context.payload.repository.name,
-      issue_number: context.payload.issue.number,
-      body: `Repository created successfully: ${response.data.html_url}\nUser ${user} added as an admin to ${repoName}`
+      repo: IssuesRepoName,
+      issue_number: issuesNumber,
+      body: `Repository created successfully: ${response.data.html_url}\nUser ${user} added as an admin to ${createRepoName}`
     });
 
     // Close the issue on success
     await octokit.issues.update({
       owner: organization,
-      repo: context.payload.repository.name,
-      issue_number: context.payload.issue.number,
+      repo: IssuesRepoName,
+      issue_number: issuesNumber,
       state: 'closed'
     });
   } catch (error) {
@@ -41211,9 +41216,9 @@ async function createRepoFromTemplate() {
     // Comment back to the issue on failure
     await octokit.issues.createComment({
       owner: organization,
-      repo: context.payload.repository.name,
-      issue_number: context.payload.issue.number,
-      body: `Failed to create repository ${repoName}: ${error.message}`
+      repo: issuesRepoName,
+      issue_number: issuesNumber,
+      body: `Failed to create repository ${createRepoName}: ${error.message}`
     });
   }
 }

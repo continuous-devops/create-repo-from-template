@@ -4,7 +4,8 @@
   "description": "A node.js app to create a repository from a repository template",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "test": "nodemon ./index.js",
     "build": "ncc build index.js -o dist"
   },
   "repository": {
@@ -25,6 +26,7 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@octokit/auth-app": "^6.1.1",
-    "@octokit/rest": "^20.1.0"
+    "@octokit/rest": "^20.1.0",
+    "octokit": "^3.2.0"
   }
 }
