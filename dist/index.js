@@ -41123,7 +41123,7 @@ const octokit = createOctokitInstance(
 // Function to create Octokit instance
 function createOctokitInstance(PAT, appId, appPrivateKey, appInstallationId, apiUrl) {
   // Prefer app auth to PAT if both are available
-  if (pat) {
+  if (PAT) {
     return new Octokit({
       auth: PAT,
       baseUrl: apiUrl,
