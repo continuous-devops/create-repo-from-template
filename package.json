@@ -1,5 +1,5 @@
 {
-  "name": "create-repo",
+  "name": "create-repo-from-template",
   "version": "1.0.0",
   "description": "A node.js app to create a repository from a repository template",
   "main": "index.js",
