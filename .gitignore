@@ -4,3 +4,4 @@ npm-debug.log
 
 # dotenv environment variables file
 .envrc
+local.env

@@ -7,15 +7,6 @@ inputs:
   repo_template:
     description: "GitHub repository template to use"
     required: true
-  app_id:
-    description: "GitHub App ID"
-    required: false
-  app_private_key:
-    description: "GitHub App private key"
-    required: false
-  app_installation_id:
-    description: "GitHub App installation ID"
-    required: false
   pat:
     description: "Personal access token if using that to auth instead of an app"
     required: false
