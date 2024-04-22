@@ -1,4 +1,4 @@
-# Create Repository from Template GitHub Action
+# Create Repository from a Repository Template `node.js` GitHub Action
 
 This GitHub Action automates the creation of new repositories from a template in a GitHub organization.
 
