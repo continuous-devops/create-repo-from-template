@@ -1,5 +1,4 @@
 const { Octokit } = require("@octokit/rest");
-const { createAppAuth } = require("@octokit/auth-app");
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -95,6 +94,8 @@ async function createRepoFromTemplate() {
     githubApiUrl: ${githubApiUrl}
     githubPAT: ${githubPAT}
   `);
+  
+  // Check if the repository already exists
   try {
     await octokit.repos.get({
       owner: organization,
@@ -110,7 +111,6 @@ async function createRepoFromTemplate() {
   }
 
   try {
-    // Check if the repository already exists
     const response = await createRepo();
     core.info(`Repository created: ${response.data.full_name}`);
 
