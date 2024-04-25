@@ -1,6 +1,9 @@
 name: "create-repo-from-repo-template"
 description: "An action to create a repository from a repository template in an organization"
 inputs:
+  organization:
+    description: "GitHub organization name"
+    required: true
   repo_name:
     description: "GitHub repository name to create"
     required: true
