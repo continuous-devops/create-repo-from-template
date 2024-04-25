@@ -1,4 +1,4 @@
-name: "create-repo"
+name: "create-repo-from-repo-template"
 description: "An action to create a repository from a repository template in an organization"
 inputs:
   repo_name:
