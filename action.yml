@@ -12,7 +12,7 @@ inputs:
     required: true
   pat:
     description: "Personal access token if using that to auth instead of an app"
-    required: false
+    required: true
   api_url:
     description: "Source GitHub API URL"
     required: false
